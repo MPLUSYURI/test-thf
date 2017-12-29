@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style type="text/css">
+        </style>
+    </head>
+    <body>
+    	<div id='box' style="margin:0 auto; width:482px;">
+    		<canvas id='demo'>
+    			您的浏览器暂时不支持canvas,请升级或更换最新的浏览器!
+    		</canvas>
+    	</div>
+        <button>加攻击</button>
+    </body>
+    <script type="text/javascript">
+    	var canvas = document.getElementById('demo');
+    	canvas.width = 480;
+    	canvas.height = 720;
+    	// canvas.style.border = '1px solid #000';
+    	var ctx = canvas.getContext("2d");
+        ctx.font = "20px '微软雅黑'";
+        //五个状态
+    	const Stay = 1;
+    	const LOAD = 2;
+    	const Game = 3;
+    	const Puse = 4;
+    	const Over = 5;
+        
+    	var state = Stay;
+
+    	//子弹
+    	var bltArr = [];
+        //我的飞机坐标
+        var Ix = 0,Iy = 0;
+        var life = 10;
+    	//敌机
+    	var planeArr = [];
+        var planemArr = [];  
+        var planelArr = [];//165-261  	
+        var pNum = 0;
+        var lNum =0;
+    	//子弹碰敌机
+    	var calculateArr = [];
+        //大飞机
+        var calculateArr_l = [];
+        //分数
+        var point = 0;
+        // 撞机功能
+    	function calculate(){
+    		(function(){
+    			for(var i=0;i<bltArr.length;i++){
+                    //小飞机的
+    				for(var k=0;k<planeArr.length;k++){
+    					//先用大于等于计算
+    					if(bltArr[i].y >= planeArr[k].y+90 && bltArr[i].y <= planeArr[k].y+100){//y是小数
+    						if(bltArr[i].x >= planeArr[k].x && bltArr[i].x <planeArr[k].x+57){
+    							// 到这步表示('打到飞机');
+                                bltArr[i] = false;
+                                 // bltArr[i+1] = false;
+                                // bltArr[i-1] = false;
+                                // if(pNum %5 == 1){//打十个子弹
+                                    calculateArr.push(planeArr[k]);
+                                    planeArr[k] = false;
+                                    point+=1;
+                                // }
+                                // pNum++;
+    						}
+    					}
+    				}
+                    // 中飞机的
+                    for(var m=0;m<planemArr.length;m++){
+                        var p = planemArr[m];
+                        var b = bltArr[i];
+                        if(b.y >= p.y+115 && b.y <= p.y+126 ){
+                            // console.log('子弹Y和中飞Y机在一个线');
+                            // if(b.x >= p.x+23 && b.x <= p.x+46){//判断打中间头头
+                             if(b.x >= p.x+0 && b.x <= p.x+69){
+                                 bltArr[i] = false;
+                                 // bltArr[i-2] = false;
+                                // bltArr[i-1] = false;
+                                if(pNum >= 50){//中飞机需要6发子弹
+                                    calculateArr.push(planemArr[m]);
+                                     planemArr[m] = false;
+                                     // console.log('打了'+pNum+'发子弹，打  到了');
+                                     pNum = 0;
+                                      point+=5;
+                                }
+                                 pNum++;
+                                // console.log('打到中型飞机头头');
+                            }
+                        }
+                        // if(b.y >= p.y+90 && b.y <= p.y+91){
+                        //     if(b.x >= p.x+0 && b.x <= p.x+23){
+                        //          bltArr[i] = false;
+                        //         console.log('打到中型飞机左边');
+                        //     }
+                        //      if(b.x >= p.x+46 && b.x <= p.x+69){
+                        //          bltArr[i] = false;
+                        //         console.log('打到中型飞机右边');
+                        //     }
+                        // }
+                    }
+                    //大飞机的
+                    for(var l=0;l<planelArr.length;l++){
+                         var p = planelArr[l];
+                         var b = bltArr[i];
+
+                         if(b.y >= p.y+251 && b.y <= p.y+262 ){
+                            // console.log(planelArr);
+                             if(b.x >= p.x+0 && b.x <= p.x+165){
+                                 bltArr[i] = false;
+                                 // bltArr[i-2] = false;
+                                // bltArr[i-1] = false;
+                                
+                                if(lNum >= 100){//大飞机需要40发子弹
+                                    // console.log(planelArr);
+                                    calculateArr_l.push(planelArr[l]);
+                                     planelArr[l] = false;
+                                     lNum = 0;
+                                     point+=10;
+                                     
+                                }
+                                lNum++;
+                            }
+                        }
+                    }
+    			}
+                //计算敌机对象和我放飞机坐标,实现撞机
+                var x = Ix,y = Iy;
+
+                for(var p=0;p<planeArr.length;p++){//小飞机坐标57*51
+                    // 这一步表示小飞机y到我的飞机头部了 减2生命值
+                    if(planeArr[p].y > y-40 && planeArr[p].y < y){
+                        if(planeArr[p].x > x+10 && planeArr[p].x < x+39){
+                           // console.log('头部');
+                            life -= 2;
+                            calculateArr.push(planeArr[p]);
+                            planeArr[p] = false;
+                        }
+                    }
+                    //中部撞机 减1生命值
+                    if(planeArr[p].y > y+30 && planeArr[p].y < y+70){
+                        if(planeArr[p].x > x-35 && planeArr[p].x < x+95){
+                           // console.log('中部');
+                           calculateArr.push(planeArr[p]);
+                            planeArr[p] = false;
+                           life -= 1;
+                        }
+                    }
+                }
+                for(var s=0;s<planemArr.length;s++){//中飞机坐标69*95
+                    //------------------------------------------------------------
+                    if(planemArr[s].y > y-90 && planemArr[s].y < y+30){
+                        //y点到了
+                        for(var c=0;c<69;c++){
+                            // 
+                           if((planemArr[s].x+c)-45 > x && (planemArr[s].x)+30 < x+c+1){
+                                //大飞机碰了不会坏,不清大飞机
+                                calculateArr.push(planemArr[s]);
+                                planemArr[s] = false;
+                                life -= 5;
+                                // console.log(0);
+                            }
+                        } 
+                        // console.log(0)
+                    }
+                    //中部撞机
+                    if(planemArr[s].y > y-50 && planemArr[s].y < y+30){
+                        for(var g=0;g<69;g++){
+                            if((planemArr[s].x+g) > x && (planemArr[s].x)-30 < x+g+1){
+                               life -= 3;
+                                calculateArr.push(planemArr[s]);
+                                planemArr[s] = false;
+                            }
+                        }
+                        
+                    }
+                    //------------------------------------------------------------
+                }
+                for(var j=0;j<planelArr.length;j++){//大飞机坐标169*258
+                    if(planelArr[j].y > y-240 && planelArr[j].y < y+30){
+                        //y点到了
+                        for(var q=0;q<100;q++){
+                            // 
+                           if((planelArr[j].x+q) > x && (planelArr[j].x)+100 < x+q+1){
+                                //大飞机碰了不会坏,不清大飞机
+                                // calculateArr_l.push(planelArr[j]);
+                                // planelArr[j] = false;
+                                life = 0;
+                            }
+                        } 
+                    }
+                    //中部撞机
+                    if(planelArr[j].y > y-200 && planelArr[j].y < y+30){
+                        for(var u=0;u<169;u++){
+                            if((planelArr[j].x+u) > x && (planelArr[j].x)+80 < x+u+1){
+                               life = 0; 
+                            }
+                        }
+                    }
+                    
+                }
+                // console.log(' X: '+x+' 　 Y: '+y);
+    		}());
+    	}
+    	//被打到的飞机消失
+    	var shiNum = 0,Num_L = 0;
+    	function shi(){ 
+    		(function(){
+    			for(var i=0;i<calculateArr.length;i++){
+    				var v = calculateArr;
+                    // console.log(v);
+    				// console.log(v[i]);
+                    if(shiNum <= 10){
+                        ctx.drawImage(v[i].img[1],v[i].x,v[i].y);
+                    }else if(shiNum >= 10 && shiNum<= 20){
+                        ctx.drawImage(v[i].img[2],v[i].x,v[i].y);
+                    }else if(shiNum >= 20 && shiNum<= 30){
+                        ctx.drawImage(v[i].img[3],v[i].x,v[i].y);
+                    }else if(shiNum >= 30 && shiNum<= 40){
+                        ctx.drawImage(v[i].img[4],v[i].x,v[i].y);
+                    }else{
+                        calculateArr.shift();
+                        shiNum=0;
+                    }
+                    // console.log(calculateArr);
+                    shiNum++;
+    			}
+                // calculateArr_l 大飞机
+                for(var r=0;r<calculateArr_l.length;r++){
+                    var l = calculateArr_l;
+                    if(Num_L <= 10){
+                        ctx.drawImage(l[r].img[3],l[r].x,l[r].y);
+                    }else if(Num_L >= 10 && Num_L<= 20){
+                        ctx.drawImage(l[r].img[4],l[r].x,l[r].y);
+                    }else if(Num_L >= 20 && Num_L<= 30){
+                        ctx.drawImage(l[r].img[5],l[r].x,l[r].y);
+                    }else if(Num_L >= 30 && Num_L<= 40){
+                        ctx.drawImage(l[r].img[6],l[r].x,l[r].y);
+                    }else if(Num_L >= 40 && Num_L<= 50){
+                        ctx.drawImage(l[r].img[7],l[r].x,l[r].y);
+                    }else if(Num_L >= 50 && Num_L<= 60){
+                        ctx.drawImage(l[r].img[8],l[r].x,l[r].y);
+                    }else if(Num_L > 60){
+                        calculateArr_l.shift();
+                        // console.log(calculateArr_l);
+                        // console.log(Num_L);
+                        Num_L=0;
+                    }
+                    Num_L++;  
+                }
+    		}());
+    	}
+        //坠毁
+        //VOER
+        var overs = new Image();
+        overs.src = 'images/over.png';
+        //
+        var calculateArr2 = [];
+        var shiNum2 = 0; 
+        function shi2(){
+            var s = calculateArr2;
+            // console.log(calculateArr2[0].imgs[0]);
+            if(shiNum2 <= 50){
+                ctx.drawImage(s[0].imgs[0],s[1],s[2]);
+            }else if(shiNum2 >= 50 && shiNum2<= 100){
+               ctx.drawImage(s[0].imgs[1],s[1],s[2]);
+            }else if(shiNum2 >= 100 && shiNum2<= 150){
+                ctx.drawImage(s[0].imgs[2],s[1],s[2]);
+            }else if(shiNum2 >= 150 && shiNum2<= 200){
+               ctx.drawImage(s[0].imgs[3],s[1],s[2]);
+            }else if(shiNum2 > 200){
+                ctx.drawImage(overs,0,300);
+            }
+            shiNum2 ++;
+        }
+
+        var arfNum = 0;
+
+        var blet_l = [];
+////////////////////////////////////////////////////////////////////////
+
+        
+    </script>
+    <script type="text/javascript" src='airplane.js'></script>
+</html>
