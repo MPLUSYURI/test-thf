@@ -269,6 +269,7 @@
 			ls4:-200,
 			ls5:w+200
 		};
+		var ae=0;
 		function ops(val,ls){
 			ctx.drawImage(val[0],0,0,w,h);
 
@@ -291,9 +292,12 @@
 			ctx.drawImage(ls[3],oveR.ls4,250);
 			ctx.drawImage(ls[4],oveR.ls5,h*0.8);
 			ctx.fillText(plen, 520, 110);
-			canvas.onclick = function(){
-				window.location.reload();
+			if(ae >250){
+				canvas.onclick = function(){
+					window.location.reload();
+				}
 			}
+			ae++;
 		}
     	function time(){ 
 			var timer = setTimeout(function(){
