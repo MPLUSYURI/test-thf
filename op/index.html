@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>xx</title>
+	<style>
+		*{margin:0;padding:0;}
+		#set{
+			position: fixed;
+			width:100px;
+			height:100px;
+			background:skyblue;
+			z-index:20;
+			top:0;
+			right:0;
+			border-radius: 50%;
+			font-size:60px;
+			line-height: 100px;
+			text-align: center;
+			opacity: 0.5;
+			color:#fff;
+			-webkit-animation:tras 10s linear infinite;
+		}
+		@keyframes tras {
+			to {
+				transform:rotate(1080deg);
+			}
+		}
+	</style>
+</head>
+<body>
+	<canvas id="demo">
+		您的浏览器暂时不支持canvas，请升级您的浏览器或者用最新的谷歌浏览器!
+	</canvas>
+	<audio src="http://pic.ibaotu.com/00/46/61/54t888piCGdg.mp3" autoplay loop>
+		您的浏览器不支持 audio 标签。
+	</audio>
+	<div id="set">♫</div>
+	<script type="text/javascript">
+		var canvas = document.getElementById('demo');
+		var w =  document.body.scrollWidth;
+		var h =  document.body.scrollHeight-3;
+		canvas.width = w;
+    	canvas.height = h;
+    	var ctx = canvas.getContext("2d");
+    	//4阶段
+    	const Star = 0;
+    	const Load = 1;
+    	const Play = 2;
+    	const Over = 3;
+    	var state = Star;
+    	var stars = [];
+		stars[0] = new Image();
+		stars[0].src = 'images/bj.png';
+		stars[1] = new Image();
+		stars[1].src = 'images/jiao.png';
+		stars[2] = new Image();
+		stars[2].src = 'images/tou.png';
+		stars[3] = new Image();
+		stars[3].src = 'images/dao.png';
+		stars[4] = new Image();
+		stars[4].src = 'images/shou.png';
+		stars[5] = new Image();
+		stars[5].src = 'images/yue.png';
+		stars[6] = new Image();
+		stars[6].src = 'images/chuang.png';
+		stars[7] = new Image();
+		stars[7].src = 'images/logo.png';
+		stars[8] = new Image();
+		stars[8].src = 'images/play.png';
+		stars[9] = new Image();
+		stars[9].src = 'images/cl.png';
+		stars[10] = new Image();
+		stars[10].src = 'images/hei.png';
+		var is = {
+			'i':0,
+			'tops':-200,
+			'num':0,
+			'scale':1,
+			s:400,
+			dao:1,
+			day:0
+		};
+		//这个函数的固定数值全部是图片的大小
+		function bj (val) {
+			ctx.drawImage(val[0],0,0,w,h);
+			ctx.drawImage(val[10],w/3.6,730);
+			if(is.i<=200){
+				ctx.drawImage(val[7],w/4.3,is.tops);
+				ctx.drawImage(val[4],is.s,1125);
+				ctx.drawImage(val[3],635,900);
+				ctx.drawImage(val[5],w/4,720,252/2,358/2);
+				is.tops+=2;
+				is.i++;
+			}else{
+				if(is.day>=330){
+					is.day = 0;
+				}
+				ctx.drawImage(val[5],(w/4)+is.day,720,252/2,358/2);
+				if(is.num <= 20){
+					is.s+=0.5;
+					is.scale+=0.002;
+					is.dao+=0.5;
+				}else if(is.num >=20 && is.num <=40){
+					is.s-=0.5;
+					is.scale-=0.002;
+					is.dao-=0.5;
+				}else {
+					is.s = 400;
+					is.num = 0;
+					is.dao=0;
+				}
+				is.num++;
+				is.day++;
+				ctx.drawImage(val[7],w/4.3,is.tops,583*is.scale,448*is.scale);
+				ctx.drawImage(val[4],is.s,1125);
+				ctx.drawImage(val[3],635+is.dao,900-is.dao);
+				//play
+				ctx.drawImage(val[8],w/2-(240/2),h/1.1-(95/2));
+			}
+			//jao||tou
+			ctx.drawImage(val[1],w/4+200,1250);
+			ctx.drawImage(val[2],w/4,900);
+			ctx.drawImage(val[6],w/4.5,700);
+		}
+		var loadImg = [];
+		loadImg[0] = new Image();
+		loadImg[0].src = 'images/go.png';
+		loadImg[1] = new Image();
+		loadImg[1].src = 'images/1.png';
+		loadImg[2] = new Image();
+		loadImg[2].src = 'images/2.png';
+		loadImg[3] = new Image();
+		loadImg[3].src = 'images/3.png';
+		loadImg[4] = new Image();
+		loadImg[4].src = 'images/a1.png';
+		loadImg[5] = new Image();
+		loadImg[5].src = 'images/a2.png';
+		loadImg[6] = new Image();
+		loadImg[6].src = 'images/a3.png';
+		loadImg[7] = new Image();
+		loadImg[7].src = 'images/a4.png';
+		loadImg[8] = new Image();
+		loadImg[8].src = 'images/a6.png';
+		var text = '10';
+		function loads(val){
+			ctx.drawImage(val[4],0,0,w,h);
+			ctx.drawImage(val[5],0,0,501*1.9,121*1.9);
+		}
+		var ls = 0;
+		function lsgo(val){
+			if(ls <=100){
+				ctx.drawImage(val[8],w/2-319,h/2);
+			}else if(ls>=100&&ls<=150){
+				ctx.drawImage(val[3],300,h/3);
+			}else if(ls>=150&&ls<=200){
+				ctx.drawImage(val[2],300,h/3);
+			}else if(ls>=200&&ls<=250){
+				ctx.drawImage(val[1],300,h/3);
+			}else if(ls>=250&&ls<=300){
+				ctx.drawImage(val[0],w/2-319,h/2);
+			}else{
+				// canvas.onclick = function(){
+					if(state == Load){
+						state = Play;
+					}
+				// }
+			}
+			ls++;
+		}
+		//-----------------------------------------------------------
+		function Aircraft(val){
+			// this._init(opt);
+			this.img = val[6];
+			this.x = parseInt(Math.random()*(canvas.width-200)); 
+			this.y = parseInt(Math.random()*((canvas.height-100)-200+1)+200);
+			this.draw = function(){
+				ctx.drawImage(this.img, this.x, this.y);
+			}
+		}
+		var arrs = [];
+		var nums = 0;
+		function op(){
+			if(nums%50==0){
+				var aircraft = new Aircraft(loadImg);
+				arrs[arrs.length] = aircraft;
+			}
+			nums++;
+		}
+		function poresDraw(){
+			(function(){
+				for(var i=0;i<arrs.length;i++){
+					if(arrs[i]){
+						arrs[i].draw();
+						
+					}
+				}
+			}());
+		}
+		var plen = 0;
+		var arrF = [];
+		canvas.onclick = function(){
+			if(state == Star){
+				state = Load;
+			}
+			if(state == Play){
+				var x = event.offsetX;
+				var y = event.offsetY;
+				(function(){
+					for(var i=0;i<arrs.length;i++){
+						if(y>=arrs[i].y && y<=arrs[i].y+300){
+							if(x>=arrs[i].x && x<=arrs[i].x+230){
+								arrF[arrF.length] = arrs[i];
+								arrs[i] = false;
+								plen++;
+							}
+						}
+						
+					}
+				}());
+			}
+		}
+		var shiNum = 0,times=10,timea=10000;
+		function ove(val) {
+			for(var i=0;i<arrF.length;i++){
+				var v = arrF;
+                if(shiNum <= 100){
+                    ctx.drawImage(val[7],v[i].x,v[i].y);
+                }else{
+                    arrF.shift();
+                    shiNum=0;
+                }
+                shiNum++;
+			}
+			ctx.font = "80px 微软雅黑";
+		    ctx.fillStyle = "#000";
+		    ctx.fillText(plen, 300, 120);
+
+		    ctx.fillText(times, 750, 120);
+
+		    if(timea %100 == 0){
+		    	times--;
+		    	if(times <= 0){
+		    		times = 0;
+		    		state = Over;
+		    	}
+		    }
+		    timea--;
+		}
+		let ti = 0;
+		var overImg = [];
+		overImg[0] = new Image();
+		overImg[0].src = 'images/a8.png';
+		overImg[1] = new Image();
+		overImg[1].src = 'images/a9.png';
+		overImg[2] = new Image();
+		overImg[2].src = 'images/a10.png';
+		overImg[3] = new Image();
+		overImg[3].src = 'images/text.png';
+		overImg[4] = new Image();
+		overImg[4].src = 'images/play2.png';
+		var oveR = {
+			ls1:-351,
+			ls2:w,
+			ls3:-200,
+			ls4:-200,
+			ls5:w+200
+		};
+		function ops(val,ls){
+			ctx.drawImage(val[0],0,0,w,h);
+
+			if(oveR.ls1 <= 0){
+				oveR.ls1+=3;
+			}else if(oveR.ls2 >= w-380){
+				oveR.ls2-=3;
+			}
+			if(oveR.ls3 <=0){
+				oveR.ls3+=2;
+			}
+			if(oveR.ls4 <=w/2-140){
+				oveR.ls4+=5;
+			}else if(oveR.ls5 >= w/2-150){
+				oveR.ls5-=6;
+			}
+			ctx.drawImage(ls[0],oveR.ls1,500);
+			ctx.drawImage(ls[1],oveR.ls2,500);
+			ctx.drawImage(ls[2],w/2-212,oveR.ls3);
+			ctx.drawImage(ls[3],oveR.ls4,250);
+			ctx.drawImage(ls[4],oveR.ls5,h*0.8);
+			ctx.fillText(plen, 520, 110);
+			canvas.onclick = function(){
+				window.location.reload();
+			}
+		}
+    	function time(){ 
+			var timer = setTimeout(function(){
+				(function(){
+					switch(state){
+						case Star:
+							bj(stars);
+							break;
+						case Load:
+							loads(loadImg);
+							lsgo(loadImg);
+							break;
+						case Play:
+							loads(loadImg);
+							poresDraw();
+							op();
+							ove(loadImg);
+							break;
+						case Over:
+							ops(stars,overImg);
+							break;
+					}
+				}());
+				clearInterval(timer);
+				timer = null;
+				time();
+			},10);
+		}
+		time();
+	</script>
+</body>
+</html>
