@@ -7,4 +7,9 @@
 <body>
 	<input type="file" multiple="multiple" accept="image/*" capture="camera" >
 </body>
+<script>
+    document.querySelector('input').onchange = function() {
+      console.log(this.files);
+    };
+</script>
 </html>
