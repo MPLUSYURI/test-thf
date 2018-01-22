@@ -5,11 +5,26 @@
 	<title>test</title>
 </head>
 <body>
-	<input type="file" multiple="multiple" accept="image/*" capture="camera" >
+	<input id="myFile" type="file" multiple="multiple" accept="image/*" capture="camera" >
 </body>
 <script>
-    document.querySelector('input').onchange = function() {
-      console.log(this.files);
-    };
+	var inp = document.querySelector("#myFile");
+        inp.onchange = function () {
+            //console.log(this.files);          
+            for (var i = 0;i < this.files.length;i++) {
+                var file = this.files[i];
+                // console.log(file);
+                
+                var fr = new FileReader();              
+                fr.readAsDataURL(file);                 
+                fr.onload = function () {
+                    // console.log(this.result);               
+                    var img = new Image();
+                    img.src = this.result;
+                    document.body.appendChild(img);
+                }
+            }
+            
+        }
 </script>
 </html>
