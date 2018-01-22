@@ -3,28 +3,39 @@
 <head>
 	<meta charset="UTF-8">
 	<title>test</title>
+	<style>
+		#box {
+			width:50px;
+			height:50px;
+			overflow: hidden;
+		}
+		
+	</style>
 </head>
 <body>
-	<input id="myFile" type="file" multiple="multiple" accept="image/*" capture="camera" >
+	<input id="myFile" type="file" multiple="multiple" accept="image/*" capture="camera">
+	<div id="box"></div>
 </body>
 <script>
+	var img;
 	var inp = document.querySelector("#myFile");
-        inp.onchange = function () {
-            //console.log(this.files);          
-            for (var i = 0;i < this.files.length;i++) {
-                var file = this.files[i];
-                // console.log(file);
-                
-                var fr = new FileReader();              
-                fr.readAsDataURL(file);                 
-                fr.onload = function () {
-                    // console.log(this.result);               
-                    var img = new Image();
-                    img.src = this.result;
-                    document.body.appendChild(img);
-                }
+    inp.onchange = function () {
+        //console.log(this.files);          
+        for (var i = 0;i < this.files.length;i++) {
+            var file = this.files[i];
+            // console.log(file);
+            var fr = new FileReader();              
+            fr.readAsDataURL(file);                 
+            fr.onload = function () {
+                // console.log(this.result);               
+                img = new Image();
+                img.src = this.result;
+                // document.body.appendChild(img);
+                document.querySelector("#box").appendChild(img);
+                // console.log(img);
             }
-            
         }
+    }
+
 </script>
 </html>
