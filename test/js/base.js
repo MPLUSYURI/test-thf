@@ -8,7 +8,7 @@ window.onload = function () {
 	let img;
 	var inp = document.querySelector("#myFile");
     inp.onchange = function () {
-        //console.log(this.files);          
+        //console.log(this.files);     
         for (var i = 0;i < this.files.length;i++) {
             var file = this.files[i];
             // console.log(file);
@@ -59,6 +59,8 @@ window.onload = function () {
 		}
 		// console.log(iptVal);
 	}
+	var zImg = new Image();
+
 	function time(){ 
 		var timer = setTimeout(function(){
 			(function(){
@@ -74,6 +76,13 @@ window.onload = function () {
 					case PLAY:
 						ig();
 						ctx.fillText(texts.iptVal, 0, h/1.5);
+						if(opt.i<2){
+							var tempSrc = canvas.toDataURL("image/png");
+							zImg.src = tempSrc;
+							opt.i++;
+							// console.log(zImg);
+							// document.body.appendChild(zImg);
+						}
 						break;
 				}
 			}());
@@ -83,4 +92,25 @@ window.onload = function () {
 		},100);
 	}
 	time();
+
+	let share = document.querySelector("#soshm");
+	share.onclick = function () {
+		// if(state != STAP){
+		// 	soshm(share, {
+		// 	  // 分享的链接，默认使用location.href
+		// 	  url: 'www.baidu.com',
+		// 	  // 分享的标题，默认使用document.title
+		// 	  title: 'baidu',
+		// 	  // 分享的摘要，默认使用<meta name="description" content="">content的值
+		// 	  digest: '123',
+		// 	  // 分享的图片，默认获取本页面第一个img元素的src
+		// 	  pic: img.src,
+		// 	  // 默认显示的网站为以下六个个,支持设置的网站有
+		// 	  // weixin,weixintimeline,qq,qzone,yixin,weibo,tqq,renren,douban,tieba
+		// 	  sites: ['weixin', 'weixintimeline', 'yixin', 'weibo', 'qq', 'qzone']	
+		// 	});
+		// }
+		soshm.weixinSharetip();
+	}
+	
 }
