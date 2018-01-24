@@ -1,0 +1,25 @@
+@charset "utf8";
+.fixedBox {
+	position: fixed;
+	width: 100px;
+	height: 100px;
+	top:0;
+	right:0;
+}
+#myFile {
+	width: 100px;
+	height: 100px;
+	opacity: 0.01;
+}
+#newipt {
+	width: 90%;
+	height: 300px;
+	border-radius: 10px;
+	font-size: 40px;
+	border: 0px solid transparent;
+	background:transparent;
+	color: #fff;
+	position: fixed;
+	top: 80%;
+	left: 50px;
+}
