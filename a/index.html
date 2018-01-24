@@ -1,31 +1,27 @@
-<html>
-<head>
-  <title></title>
-  <style type="text/css">
-    .mytab{
-      border:1px solid gray;
-      cellspacing:0;
-      cellpadding:0;
-    }
-  </style>
-
-  <script language="javascript" type="text/javascript">
-    function save(){
-      var img = document.getElementById("testImg");
-      var oPop = window.open(img.src,"","width=1,height=1,top=5000,left=5000");
-      for(;   oPop.document.readyState   !=   "complete";   ){
-        if   (oPop.document.readyState   ==   "complete")break;
-      }
-      oPop.document.execCommand("SaveAs");
-      oPop.close();
-    }
-    if( typeof WeixinJSBridge !== "undefined" ) {
-	 alert('a12');
-}
-  </script>
-</head>
-<body>
-<input type="button" value="保存" onclick="save();" /><br/>
-<img id="testImg" width="200px" height="200px" src="1.jpg" alt="测试图片js保存" /><br/>
-</body>
-</html>
+<!DOCTYPE HTML> 
+<html lang="en"> 
+<head> 
+<meta charset="utf-8"/> 
+<title>判断是否是微信内置浏览器</title> 
+</head> 
+<body> 
+<h1>如果用微信浏览器打开可以看到下面的文字</h1> 
+<p></p> 
+</body> 
+</html> 
+<script type="text/javascript"> 
+window.onload = function(){ 
+if(isWeiXin()){ 
+var p = document.getElementsByTagName('p'); 
+p[0].innerHTML = window.navigator.userAgent; 
+} 
+} 
+function isWeiXin(){ 
+var ua = window.navigator.userAgent.toLowerCase(); 
+if(ua.match(/MicroMessenger/i) == 'micromessenger'){ 
+return true; 
+}else{ 
+return false; 
+} 
+} 
+</script> 
