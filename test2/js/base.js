@@ -128,4 +128,7 @@ window.onload = function () {
 		},500);
 	}
 	time();
+	canvas.touchstart = function () {
+		alert('test');
+	}
 }
