@@ -1,0 +1,42 @@
+@img: "../images/"; //url("@{img}top.png");
+html,body{
+  color:#000;
+  background-color:rgba(17,1,117,0.1);
+  overflow:hidden;
+  width:640px;
+  height:100%;
+  margin:0 auto;
+  font-family: "微软雅黑";
+}
+//弹性居中
+body{
+  display: flex;
+  display: -webkit-flex; /* Safari */
+  justify-content: center;
+  align-items: center;/*指定垂直居中*/
+}
+#demo{
+  background-color: rgba(0,0,0,0.2);
+  vertical-align:middle;
+  position: relative;
+  overflow: hidden;
+  section{
+    width:640px;
+    height:1008px;
+    color:#fff;
+    font-size:100px;
+    text-align: center;
+    line-height:1008px;
+    position: absolute;
+    top:1008px;
+    overflow: hidden;
+  }
+  #p1{background-color:rgba(255,0,0,0.5);}
+  #p2{background-color:rgba(0,255,0,0.5);}
+  #p3{background-color:rgba(0,0,255,0.5);}
+  #p4{background-color:rgba(100,0,0,0.5);}
+  #p5{background-color:rgba(0,100,0,0.5);}
+  #p6{background-color:rgba(0,0,100,0.5);}
+  #p7{background-color:rgba(0,100,100,0.5);}
+  #p8{background-color:rgba(100,0,100,0.5);}
+}
